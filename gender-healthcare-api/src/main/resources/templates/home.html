@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Chủ - Gender Healthcare</title>
+</head>
+<body>
+    <h1>Giới thiệu Phòng Khám</h1>
+    <div id="clinic-info"></div>
+
+    <h2>Blog Giáo Dục</h2>
+    <ul id="blogs"></ul>
+
+    <h2>Dịch Vụ</h2>
+    <ul id="services"></ul>
+
+    <script>
+        fetch('/api/home/clinic-info')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('clinic-info').innerHTML =
+                    `<strong>${data.name}</strong><p>${data.description}</p>`;
+            });
+
+        fetch('/api/home/blogs')
+            .then(res => res.json())
+            .then(data => {
+                let html = '';
+                data.forEach(b => html += `<li><strong>${b.title}</strong>: ${b.content}</li>`);
+                document.getElementById('blogs').innerHTML = html;
+            });
+
+        fetch('/api/home/services')
+            .then(res => res.json())
+            .then(data => {
+                let html = '';
+                data.forEach(s => html += `<li><strong>${s.name}</strong>: ${s.description}</li>`);
+                document.getElementById('services').innerHTML = html;
+            });
+    </script>
+</body>
+</html>
