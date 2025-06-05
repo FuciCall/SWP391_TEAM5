@@ -1,0 +1,81 @@
+/* Responsive Styles */
+
+/* Extra Small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+    .hero-section {
+        padding: 3rem 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 1.8rem;
+    }
+    
+    .hero-section .lead {
+        font-size: 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .dashboard-container {
+        padding: 1rem 0;
+    }
+
+    .content-area, .sidebar {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .hero-section {
+        padding: 4rem 0;
+    }
+    
+    .hero-section h1 {
+        font-size: 2.2rem;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .hero-section {
+        padding: 5rem 0;
+    }
+    
+    .sidebar {
+        margin-bottom: 1.5rem;
+    }
+
+    .dashboard-card {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .hero-section {
+        min-height: 500px;
+        display: flex;
+        align-items: center;
+    }
+
+    .dashboard-container {
+        display: flex;
+    }
+
+    .sidebar {
+        width: 250px;
+        min-height: calc(100vh - 120px);
+        position: sticky;
+        top: 80px;
+    }
+
+    .content-area {
+        flex: 1;
+        margin-left: 1.5rem;
+        min-height: calc(100vh - 120px);
+    }
+}

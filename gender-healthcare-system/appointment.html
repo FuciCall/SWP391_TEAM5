@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - Gender Healthcare Service Management System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Litepicker for date selection -->
+    <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <i class="fas fa-heartbeat me-2"></i>Gender Healthcare Services
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="services.html">Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact.html">Contact</a>
+                        </li>
+                    </ul>
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="login.html">Login</a>
+                        <a class="nav-link" href="register.html">Register</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="fw-bold">Book an Appointment</h1>
+                    <p class="lead">Schedule your visit with our healthcare professionals</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Appointment Form Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="alert alert-success d-none" id="appointmentSuccess">
+                                <h5 class="alert-heading"><i class="fas fa-check-circle me-2"></i> Appointment Booked Successfully!</h5>
+                                <p class="mb-0">Your appointment has been scheduled. You will receive a confirmation email shortly with all the details.</p>
+                            </div>
+
+                            <form id="appointmentForm" class="needs-validation" novalidate>
+                                <div class="mb-4">
+                                    <h5 class="mb-3">Personal Information</h5>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="firstName" class="form-label">First Name</label>
+                                            <input type="text" class="form-control" id="firstName" required>
+                                            <div class="invalid-feedback">
+                                                Please enter your first name.
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="lastName" class="form-label">Last Name</label>
+                                            <input type="text" class="form-control" id="lastName" required>
+                                            <div class="invalid-feedback">
+                                                Please enter your last name.
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="email" class="form-label">Email Address</label>
+                                            <input type="email" class="form-control" id="email" required>
+                                            <div class="invalid-feedback">
+                                                Please enter a valid email address.
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="phone" class="form-label">Phone Number</label>
+                                            <input type="tel" class="form-control" id="phone" required>
+                                            <div class="invalid-feedback">
+                                                Please enter your phone number.
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="birthdate" class="form-label">Date of Birth</label>
+                                            <input type="date" class="form-control" id="birthdate" required>
+                                            <div class="invalid-feedback">
+                                                Please enter your date of birth.
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label d-block">Gender</label>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+                                                <label class="form-check-label" for="male">Male</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" id="female" value="female" required>
+                                                <label class="form-check-label" for="female">Female</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" id="other" value="other" required>
+                                                <label class="form-check-label" for="other">Other</label>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please select your gender.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h5 class="mb-3">Appointment Details</h5>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="serviceType" class="form-label">Service Type</label>
+                                            <select class="form-select" id="serviceType" required>
+                                                <option value="" selected disabled>Select a service</option>
+                                                <option value="initial-consultation">Initial Consultation</option>
+                                                <option value="followup-consultation">Follow-up Consultation</option>
+                                                <option value="hormone-therapy">Hormone Therapy Consultation</option>
+                                                <option value="health-screening">Health Screening</option>
+                                                <option value="mental-health">Mental Health Support</option>
+                                                <option value="general-checkup">General Check-up</option>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Please select a service type.
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="consultant" class="form-label">Preferred Consultant</label>
+                                            <select class="form-select" id="consultant">
+                                                <option value="" selected>No preference</option>
+                                                <option value="dr-johnson">Dr. Emily Johnson</option>
+                                                <option value="dr-patel">Dr. Raj Patel</option>
+                                                <option value="dr-rodriguez">Dr. Maria Rodriguez</option>
+                                                <option value="dr-smith">Dr. James Smith</option>
+                                                <option value="dr-lee">Dr. Robert Lee</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="appointmentDate" class="form-label">Preferred Date</label>
+                                            <input type="text" class="form-control datepicker" id="appointmentDate" placeholder="Select a date" required>
+                                            <div class="invalid-feedback">
+                                                Please select a date for your appointment.
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="appointmentTime" class="form-label">Preferred Time</label>
+                                            <select class="form-select" id="appointmentTime" required>
+                                                <option value="" selected disabled>Select a time</option>
+                                                <option value="09:00">09:00 AM</option>
+                                                <option value="10:00">10:00 AM</option>
+                                                <option value="11:00">11:00 AM</option>
+                                                <option value="12:00">12:00 PM</option>
+                                                <option value="14:00">02:00 PM</option>
+                                                <option value="15:00">03:00 PM</option>
+                                                <option value="16:00">04:00 PM</option>
+                                                <option value="17:00">05:00 PM</option>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Please select a time for your appointment.
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="notes" class="form-label">Additional Notes (Optional)</label>
+                                            <textarea class="form-control" id="notes" rows="3" placeholder="Please provide any additional information about your visit"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h5 class="mb-3">Health Insurance Information (Optional)</h5>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="insuranceProvider" class="form-label">Insurance Provider</label>
+                                            <input type="text" class="form-control" id="insuranceProvider">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="policyNumber" class="form-label">Policy Number</label>
+                                            <input type="text" class="form-control" id="policyNumber">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="termsAgreement" required>
+                                        <label class="form-check-label" for="termsAgreement">
+                                            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                                        </label>
+                                        <div class="invalid-feedback">
+                                            You must agree to the terms and conditions.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg">Book Appointment</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What to Expect Section -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center mb-5">
+                    <h2 class="fw-bold">What to Expect</h2>
+                    <p>Here's what happens after you book your appointment</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-block mb-3">
+                                <i class="fas fa-envelope text-primary fs-2"></i>
+                            </div>
+                            <h5>Confirmation Email</h5>
+                            <p>You'll receive an email confirming your appointment details within minutes of booking.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-block mb-3">
+                                <i class="fas fa-clipboard-list text-primary fs-2"></i>
+                            </div>
+                            <h5>Pre-Visit Forms</h5>
+                            <p>24 hours before your appointment, you'll receive forms to complete, saving time during your visit.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-block mb-3">
+                                <i class="fas fa-bell text-primary fs-2"></i>
+                            </div>
+                            <h5>Appointment Reminders</h5>
+                            <p>We'll send you reminders 24 hours and 1 hour before your scheduled appointment time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section py-4 bg-dark text-white">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h5 class="mb-3">Gender Healthcare Services</h5>
+                    <p>Providing quality healthcare services tailored to gender-specific needs since 2020.</p>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <h6 class="mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-white-50">Home</a></li>
+                        <li><a href="services.html" class="text-white-50">Services</a></li>
+                        <li><a href="about.html" class="text-white-50">About Us</a></li>
+                        <li><a href="contact.html" class="text-white-50">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="mb-3">Our Services</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="services.html" class="text-white-50">Consultations</a></li>
+                        <li><a href="services.html" class="text-white-50">Health Screenings</a></li>
+                        <li><a href="services.html" class="text-white-50">Treatments</a></li>
+                        <li><a href="services.html" class="text-white-50">Support Programs</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="mb-3">Contact Us</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Healthcare Street, City</li>
+                        <li><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@genderhealthcare.com</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-secondary">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 Gender Healthcare Service Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize date picker
+            if (typeof Litepicker !== 'undefined') {
+                new Litepicker({
+                    element: document.getElementById('appointmentDate'),
+                    format: 'YYYY-MM-DD',
+                    minDate: new Date(),
+                    maxDate: new Date().setMonth(new Date().getMonth() + 3) // Allow booking 3 months in advance
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+/* Main Styles for Gender Healthcare Service Management System */
+
+:root {
+    --primary: #2c6bac;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --gray: #f5f5f5;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+/* Header/Navigation */
+.navbar {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+
+/* Hero Section */
+.hero-section {
+    background-color: var(--light);
+    padding: 6rem 0;
+}
+
+.hero-section img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Services Section */
+.services-section .card {
+    transition: transform 0.3s ease;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.services-section .card:hover {
+    transform: translateY(-5px);
+}
+
+/* Testimonials Section */
+.testimonial-card {
+    border-radius: 15px;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 1;
+}
+
+/* Call to Action Section */
+.cta-section {
+    background-color: var(--primary);
+    position: relative;
+}
+
+/* Authentication Pages */
+.auth-container {
+    max-width: 450px;
+    margin: 3rem auto;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    background-color: white;
+}
+
+.auth-container .btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+/* Dashboard */
+.dashboard-container {
+    min-height: calc(100vh - 60px);
+    padding: 2rem 0;
+}
+
+.sidebar {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+}
+
+.sidebar .nav-link {
+    color: #333;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar .nav-link i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar .nav-link.active, .sidebar .nav-link:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.content-area {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+}
+
+.dashboard-card {
+    border-radius: 10px;
+    padding: 1.5rem;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Profile Pages */
+.profile-header {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+/* Table Styling */
+.table-container {
+    overflow-x: auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    padding: 1rem;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.custom-table th {
+    background-color: #f8f9fa;
+    padding: 12px 15px;
+    font-weight: 600;
+    color: #333;
+    text-align: left;
+}
+
+.custom-table td {
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+.custom-table tbody tr {
+    border-bottom: 1px solid #f2f2f2;
+    transition: background-color 0.3s;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-active {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--success);
+}
+
+.status-pending {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: var(--warning);
+}
+
+.status-completed {
+    background-color: rgba(44, 107, 172, 0.1);
+    color: var(--primary);
+}
+
+.status-cancelled {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--danger);
+}
+
+/* Add styles for Staff Dashboard features */
+
+/* Task completed style */
+.task-completed h6 {
+    text-decoration: line-through;
+    color: #6c757d;
+}
+
+/* Hover effect for quick access tools */
+.hover-shadow {
+    transition: all 0.3s ease;
+}
+
+.hover-shadow:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+/* Chart container styles */
+.chart-container {
+    position: relative;
+    margin: auto;
+}
+
+/* Status badge styles (enhancing existing) */
+.status-badge {
+    display: inline-block;
+    padding: 0.25em 0.6em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+.status-active {
+    background-color: rgba(40, 167, 69, 0.15);
+    color: #198754;
+}
+
+.status-pending {
+    background-color: rgba(255, 193, 7, 0.15);
+    color: #ffc107;
+}
+
+.status-completed {
+    background-color: rgba(13, 110, 253, 0.15);
+    color: #0d6efd;
+}
+
+.status-cancelled {
+    background-color: rgba(220, 53, 69, 0.15);
+    color: #dc3545;
+}
+
+/* Stat cards for analytics */
+.stat-card {
+    transition: all 0.3s ease;
+    border-left: 3px solid #2c6bac;
+}
+
+.stat-card:hover {
+    background-color: #f8f9fa;
+}
+
+/* Toast notification styling */
+.toast {
+    opacity: 1 !important;
+}
+
+/* No results message */
+#noSearchResults {
+    padding: 2rem;
+    text-align: center;
+    color: #6c757d;
+}
+
+/* Forms */
+.form-control:focus {
+    box-shadow: 0 0 5px rgba(44, 107, 172, 0.25);
+    border-color: var(--primary);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #245a91;
+    border-color: #245a91;
+}
+
+.btn-outline-primary {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* Footer */
+.footer-section {
+    background-color: var(--dark);
+}
+
+.footer-section a {
+    transition: all 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: white !important;
+}

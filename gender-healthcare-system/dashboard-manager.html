@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard - Gender Healthcare Service Management System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <i class="fas fa-heartbeat me-2"></i>Gender Healthcare Services
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="services.html">Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact.html">Contact</a>
+                        </li>
+                    </ul>
+                    <div class="navbar-nav">
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-tie me-1"></i> <span id="userInfo">Manager</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i> Profile</a></li>
+                                <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="container py-5">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="sidebar">
+                    <h5 class="mb-3">Manager Dashboard</h5>
+                    <div class="list-group nav flex-column">
+                        <a href="dashboard-manager.html" class="nav-link active">
+                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-users-cog me-2"></i> Staff Management
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-calendar-alt me-2"></i> Scheduling
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-chart-line me-2"></i> Reports & Analytics
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-dollar-sign me-2"></i> Finance
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-clipboard-list me-2"></i> Inventory
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-tools me-2"></i> Resource Management
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-bullhorn me-2"></i> Announcements
+                        </a>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-cog me-2"></i> Settings
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content Area -->
+            <div class="col-lg-9">
+                <div class="content-area">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3>Manager Dashboard</h3>
+                        <div class="btn-group">
+                            <button class="btn btn-outline-secondary">
+                                <i class="fas fa-download me-2"></i> Export Reports
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-plus me-2"></i> Create Report
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats Cards -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-3">
+                            <div class="dashboard-card bg-primary bg-opacity-10 border-start border-primary border-4">
+                                <h3 class="fs-4">$3,580</h3>
+                                <p class="mb-0 text-muted">Today's Revenue</p>
+                                <div class="icon-bg">
+                                    <i class="fas fa-dollar-sign text-primary opacity-25 fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="dashboard-card bg-success bg-opacity-10 border-start border-success border-4">
+                                <h3 class="fs-4">47</h3>
+                                <p class="mb-0 text-muted">Appointments</p>
+                                <div class="icon-bg">
+                                    <i class="fas fa-calendar-check text-success opacity-25 fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="dashboard-card bg-info bg-opacity-10 border-start border-info border-4">
+                                <h3 class="fs-4">18</h3>
+                                <p class="mb-0 text-muted">Staff On Duty</p>
+                                <div class="icon-bg">
+                                    <i class="fas fa-user-md text-info opacity-25 fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="dashboard-card bg-warning bg-opacity-10 border-start border-warning border-4">
+                                <h3 class="fs-4">92%</h3>
+                                <p class="mb-0 text-muted">Satisfaction Rate</p>
+                                <div class="icon-bg">
+                                    <i class="fas fa-smile text-warning opacity-25 fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Analytics Graphs -->
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-header bg-white">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Revenue Overview</h5>
+                                        <div>
+                                            <select class="form-select form-select-sm">
+                                                <option selected>Last 30 Days</option>
+                                                <option>This Month</option>
+                                                <option>Last Quarter</option>
+                                                <option>This Year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="revenueChart" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0">Services Distribution</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="servicesChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Staff Status -->
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Staff Status</h5>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Manage Schedule</a>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-container">
+                                <table class="table custom-table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Staff Member</th>
+                                            <th>Role</th>
+                                            <th>Status</th>
+                                            <th>Current Task</th>
+                                            <th>Appointments</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="assets/images/staff-1.jpg" class="rounded-circle" width="40" height="40" alt="Staff">
+                                                    <div class="ms-2">
+                                                        <h6 class="mb-0">Dr. Emily Johnson</h6>
+                                                        <small class="text-muted">ID: S-001</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>Consultant</td>
+                                            <td><span class="status-badge status-active">On Duty</span></td>
+                                            <td>Patient Consultation</td>
+                                            <td>8 today</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-secondary">View Details</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="assets/images/staff-2.jpg" class="rounded-circle" width="40" height="40" alt="Staff">
+                                                    <div class="ms-2">
+                                                        <h6 class="mb-0">Dr. Robert Lee</h6>
+                                                        <small class="text-muted">ID: S-002</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>Consultant</td>
+                                            <td><span class="status-badge status-active">On Duty</span></td>
+                                            <td>Patient Consultation</td>
+                                            <td>6 today</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-secondary">View Details</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="assets/images/staff-3.jpg" class="rounded-circle" width="40" height="40" alt="Staff">
+                                                    <div class="ms-2">
+                                                        <h6 class="mb-0">Sarah Williams</h6>
+                                                        <small class="text-muted">ID: S-003</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>Nurse</td>
+                                            <td><span class="status-badge status-active">On Duty</span></td>
+                                            <td>Patient Intake</td>
+                                            <td>N/A</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-secondary">View Details</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="assets/images/staff-4.jpg" class="rounded-circle" width="40" height="40" alt="Staff">
+                                                    <div class="ms-2">
+                                                        <h6 class="mb-0">David Wong</h6>
+                                                        <small class="text-muted">ID: S-004</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>Receptionist</td>
+                                            <td><span class="status-badge status-active">On Duty</span></td>
+                                            <td>Front Desk</td>
+                                            <td>N/A</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-secondary">View Details</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Inventory Status -->
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Inventory Status</h5>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Manage Inventory</a>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-container">
+                                <table class="table custom-table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Category</th>
+                                            <th>Current Stock</th>
+                                            <th>Status</th>
+                                            <th>Last Restock</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Hormone Therapy Supplies</td>
+                                            <td>Medications</td>
+                                            <td>
+                                                <div class="progress" style="height: 8px;">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <small class="text-muted">65% remaining</small>
+                                            </td>
+                                            <td><span class="status-badge status-active">Adequate</span></td>
+                                            <td>May 25, 2025</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">Order</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Examination Gloves</td>
+                                            <td>Supplies</td>
+                                            <td>
+                                                <div class="progress" style="height: 8px;">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <small class="text-muted">30% remaining</small>
+                                            </td>
+                                            <td><span class="status-badge status-pending">Low Stock</span></td>
+                                            <td>May 18, 2025</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">Order</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Laboratory Test Kits</td>
+                                            <td>Diagnostics</td>
+                                            <td>
+                                                <div class="progress" style="height: 8px;">
+                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 15%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <small class="text-muted">15% remaining</small>
+                                            </td>
+                                            <td><span class="status-badge status-cancelled">Critical</span></td>
+                                            <td>May 10, 2025</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary">Order Now</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Office Supplies</td>
+                                            <td>Administrative</td>
+                                            <td>
+                                                <div class="progress" style="height: 8px;">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <small class="text-muted">80% remaining</small>
+                                            </td>
+                                            <td><span class="status-badge status-active">Adequate</span></td>
+                                            <td>May 22, 2025</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary">Order</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activities -->
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h5 class="mb-0">Recent Activities</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-item-marker">
+                                        <div class="timeline-item-marker-text">10:30 AM</div>
+                                        <div class="timeline-item-marker-indicator bg-primary"></div>
+                                    </div>
+                                    <div class="timeline-item-content">
+                                        <p class="mb-0">Staff meeting completed with department heads</p>
+                                        <small class="text-muted">Minutes uploaded to shared drive</small>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-item-marker">
+                                        <div class="timeline-item-marker-text">9:45 AM</div>
+                                        <div class="timeline-item-marker-indicator bg-success"></div>
+                                    </div>
+                                    <div class="timeline-item-content">
+                                        <p class="mb-0">Weekly inventory check completed</p>
+                                        <small class="text-muted">Orders placed for low stock items</small>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-item-marker">
+                                        <div class="timeline-item-marker-text">9:15 AM</div>
+                                        <div class="timeline-item-marker-indicator bg-warning"></div>
+                                    </div>
+                                    <div class="timeline-item-content">
+                                        <p class="mb-0">Dr. Lee requested schedule adjustment</p>
+                                        <small class="text-muted">Pending your approval</small>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-item-marker">
+                                        <div class="timeline-item-marker-text">Yesterday</div>
+                                        <div class="timeline-item-marker-indicator bg-info"></div>
+                                    </div>
+                                    <div class="timeline-item-content">
+                                        <p class="mb-0">Monthly financial report generated</p>
+                                        <small class="text-muted">Revenue increased by 12% compared to last month</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-section py-4 bg-dark text-white">
+        <div class="container">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 Gender Healthcare Service Management System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart');
+            if (revenueCtx) {
+                new Chart(revenueCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['May 1', 'May 5', 'May 10', 'May 15', 'May 20', 'May 25', 'May 30'],
+                        datasets: [{
+                            label: 'Revenue',
+                            data: [2800, 3200, 2950, 3800, 3100, 3400, 3580],
+                            backgroundColor: 'rgba(44, 107, 172, 0.1)',
+                            borderColor: 'rgba(44, 107, 172, 1)',
+                            borderWidth: 2,
+                            pointBackgroundColor: 'rgba(44, 107, 172, 1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + value;
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return '$' + context.parsed.y;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
