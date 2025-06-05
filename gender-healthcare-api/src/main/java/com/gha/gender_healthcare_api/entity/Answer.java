@@ -14,19 +14,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Blog {
+public class Answer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Long answerId;
 
-    String title;
+    String answerContent;
 
-    @Column(columnDefinition = "TEXT")
-    String content;
+    LocalDateTime answeredAt;
 
-    LocalDateTime createdAt = LocalDateTime.now();
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id", nullable = false, unique = true)
+    Question question;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
-    User user;
 }

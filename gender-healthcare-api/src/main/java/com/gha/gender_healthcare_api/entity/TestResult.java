@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,19 +15,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Blog {
+public class TestResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Long testResultId;
 
-    String title;
+    String resultData;
 
-    @Column(columnDefinition = "TEXT")
-    String content;
+    String resultStatus;
 
-    LocalDateTime createdAt = LocalDateTime.now();
+    LocalDateTime resultDate;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
-    User user;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "test_booking_id", nullable = false, unique = true)
+    TestBooking testBooking;
+
 }

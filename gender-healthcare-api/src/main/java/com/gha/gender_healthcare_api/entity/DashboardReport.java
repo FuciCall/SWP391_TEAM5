@@ -14,19 +14,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Blog {
+public class DashboardReport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Long reportId;
 
-    String title;
+    String reportType;
 
-    @Column(columnDefinition = "TEXT")
-    String content;
+    LocalDateTime generatedDate;
 
-    LocalDateTime createdAt = LocalDateTime.now();
+    String dataSummary;
 
     @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     User user;
 }

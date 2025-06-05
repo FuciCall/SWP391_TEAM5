@@ -1,5 +1,6 @@
 package com.gha.gender_healthcare_api.entity;
 
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,19 +15,24 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Blog {
+public class TestBooking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Long bookingId;
 
-    String title;
+    LocalDateTime bookingDate;
 
-    @Column(columnDefinition = "TEXT")
-    String content;
-
-    LocalDateTime createdAt = LocalDateTime.now();
+    String status;
 
     @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
-    User user;
+    @JoinColumn(name = "customer_id")
+    User customer;
+
+    @ManyToOne
+    @JoinColumn(name = "service_id")
+    Service service;
+
+    @OneToOne(mappedBy = "testBooking", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    TestResult testResult;
+
 }
