@@ -35,12 +35,12 @@ ON DUPLICATE KEY UPDATE
 
 
 -- 3. Thêm dữ liệu blog nếu chưa tồn tại
-INSERT INTO blog (title, content, created_at)
-SELECT * FROM (SELECT 'Cách phòng tránh STIs', 'Chia sẻ kiến thức về an toàn tình dục', NOW()) AS tmp
+INSERT INTO blog (title, content, created_at, author_id)
+SELECT * FROM (SELECT 'Cách phòng tránh STIs', 'Chia sẻ kiến thức về an toàn tình dục', NOW(), 1) AS tmp
 WHERE NOT EXISTS (SELECT 1 FROM blog WHERE title = 'Cách phòng tránh STIs');
 
-INSERT INTO blog (title, content, created_at)
-SELECT * FROM (SELECT 'Sức khỏe sinh sản nữ giới', 'Những điều cần biết về chu kỳ và chăm sóc sức khỏe', NOW()) AS tmp
+INSERT INTO blog (title, content, created_at, author_id)
+SELECT * FROM (SELECT 'Sức khỏe sinh sản nữ giới', 'Những điều cần biết về chu kỳ và chăm sóc sức khỏe', NOW(), 1) AS tmp
 WHERE NOT EXISTS (SELECT 1 FROM blog WHERE title = 'Sức khỏe sinh sản nữ giới');
 
 

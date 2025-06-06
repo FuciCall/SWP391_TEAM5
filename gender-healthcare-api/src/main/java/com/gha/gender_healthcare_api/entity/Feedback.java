@@ -31,4 +31,8 @@ public class Feedback {
 
     @Column(nullable = false)
     LocalDateTime date;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_id", nullable = false)
+    Service service;
 }

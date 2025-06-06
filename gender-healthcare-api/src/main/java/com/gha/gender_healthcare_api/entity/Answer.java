@@ -28,4 +28,8 @@ public class Answer {
     @JoinColumn(name = "question_id", nullable = false, unique = true)
     Question question;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "consultant_id", nullable = false)
+    Consultant consultant;
+
 }
