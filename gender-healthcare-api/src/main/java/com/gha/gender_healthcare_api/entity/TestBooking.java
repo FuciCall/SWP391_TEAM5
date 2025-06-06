@@ -22,17 +22,22 @@ public class TestBooking {
 
     LocalDateTime bookingDate;
 
-    String status;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     User customer;
 
-    @ManyToOne
-    @JoinColumn(name = "service_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "service_id", nullable = false)
     Service service;
 
     @OneToOne(mappedBy = "testBooking", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
     TestResult testResult;
 
+    public enum BookingStatus{
+        PENDING, CONFIRMED, COMPLETED, CANCELLED
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    BookingStatus status;
 }

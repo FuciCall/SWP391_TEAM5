@@ -34,10 +34,14 @@ public class Consultant {
     List<Consultation> consultations = new ArrayList<>();
 
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     User user;
 
     @OneToMany(mappedBy = "consultant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<Answer> answers = new ArrayList<>();
+
+
 }

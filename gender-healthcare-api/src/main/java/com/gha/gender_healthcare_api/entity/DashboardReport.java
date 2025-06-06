@@ -25,7 +25,7 @@ public class DashboardReport {
 
     String dataSummary;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 }

@@ -1,13 +1,11 @@
 package com.gha.gender_healthcare_api.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -23,13 +21,14 @@ public class Question {
     String content;
 
     @Column(nullable = false)
-    LocalDate createdAt;
+    LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     Status status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ToString.Exclude
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
@@ -38,9 +37,10 @@ public class Question {
     Consultation consultation;
 
     public enum Status{
-        PENDING, ANSWWERED, REJECTED
+        PENDING, ANSWERED, REJECTED
     }
 
     @OneToOne(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    @ToString.Exclude
     Answer answer;
 }

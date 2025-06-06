@@ -20,12 +20,16 @@ public class CycleTracking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long cycleId;
 
+    @Column(nullable = false)
     LocalDate startDate;
 
+    @Column(nullable = false)
     LocalDate endDate;
 
+    @Column(nullable = false)
     LocalDate ovulationDate;
 
+    @Column(nullable = false)
     LocalDateTime pillTime;
 
     @OneToOne(fetch = FetchType.LAZY)
