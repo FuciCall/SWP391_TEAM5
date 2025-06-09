@@ -1,6 +1,8 @@
 package com.gha.gender_healthcare_api.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,15 +26,21 @@ public class Feedback {
     User customer;
 
     @Column(nullable = false)
+    @Min(1) @Max(5)
     Integer rating;
 
     @Column(columnDefinition = "TEXT")
     String comment;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     LocalDateTime date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @PrePersist
+    void prePersist() {
+        date = LocalDateTime.now();
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "service_id", nullable = false)
     Service service;
 }
