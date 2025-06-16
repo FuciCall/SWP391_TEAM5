@@ -37,10 +37,20 @@ public class Feedback {
 
     @PrePersist
     void prePersist() {
-        date = LocalDateTime.now();
+        this.date = LocalDateTime.now();
+        this.status = FeedbackStatus.NEW;
     }
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "service_id", nullable = false)
     Service service;
+
+    public enum FeedbackStatus{
+        NEW, REVIEWED, RESOLVED
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    FeedbackStatus status;
+
 }
