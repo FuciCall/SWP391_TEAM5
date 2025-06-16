@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.gha.gender_healthcare_api.GenderHealthcareApiApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 20.53 s -- in com.gha.gender_healthcare_api.GenderHealthcareApiApplicationTests
