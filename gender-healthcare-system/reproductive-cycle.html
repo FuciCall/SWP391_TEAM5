@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductive Cycle Tracking - Gender Healthcare System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reproductive-cycle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <h2><i class="fas fa-heartbeat"></i> Gender Healthcare</h2>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="reproductive-cycle.html" class="active">Cycle Tracking</a></li>
+                    <li><a href="appointment.html">Appointments</a></li>
+                    <li><a href="dashboard-customer.html">Dashboard</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-calendar-alt"></i> Reproductive Cycle Tracking</h1>
+                <p>Track your menstrual cycle, get ovulation predictions, and receive important reminders</p>
+            </div>
+
+            <!-- Cycle Overview Cards -->
+            <div class="cycle-overview">
+                <div class="cycle-card">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Next Period</h3>
+                        <p id="next-period-date">--</p>
+                        <span id="days-until-period">-- days</span>
+                    </div>
+                </div>
+
+                <div class="cycle-card">
+                    <div class="card-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Ovulation</h3>
+                        <p id="next-ovulation-date">--</p>
+                        <span id="days-until-ovulation">-- days</span>
+                    </div>
+                </div>
+
+                <div class="cycle-card">
+                    <div class="card-icon">
+                        <i class="fas fa-baby"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Pregnancy Chance</h3>
+                        <p id="pregnancy-likelihood">--</p>
+                        <span id="pregnancy-percentage">--%</span>
+                    </div>
+                </div>
+
+                <div class="cycle-card">
+                    <div class="card-icon">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Pill Reminder</h3>
+                        <p id="pill-status">Not Set</p>
+                        <span id="next-pill-time">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Tabs -->
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="declare-cycle">
+                        <i class="fas fa-plus-circle"></i> Declare Cycle
+                    </button>
+                    <button class="tab-btn" data-tab="cycle-history">
+                        <i class="fas fa-history"></i> Cycle History
+                    </button>
+                    <button class="tab-btn" data-tab="pill-reminders">
+                        <i class="fas fa-bell"></i> Pill Reminders
+                    </button>
+                    <button class="tab-btn" data-tab="insights">
+                        <i class="fas fa-chart-line"></i> Insights
+                    </button>
+                </div>
+
+                <!-- Declare Cycle Tab -->
+                <div id="declare-cycle" class="tab-content active">
+                    <div class="form-container">
+                        <h2>Declare Menstrual Cycle</h2>
+                        <form id="cycle-form">
+                            <div class="form-group">
+                                <label for="period-start">Period Start Date *</label>
+                                <input type="date" id="period-start" name="periodStart" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="period-end">Period End Date</label>
+                                <input type="date" id="period-end" name="periodEnd">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="cycle-length">Average Cycle Length (days)</label>
+                                    <input type="number" id="cycle-length" name="cycleLength" min="21" max="45" value="28">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="period-length">Period Length (days)</label>
+                                    <input type="number" id="period-length" name="periodLength" min="3" max="10" value="5">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="symptoms">Symptoms (Optional)</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="symptoms" value="cramps"> Cramps</label>
+                                    <label><input type="checkbox" name="symptoms" value="bloating"> Bloating</label>
+                                    <label><input type="checkbox" name="symptoms" value="mood-swings"> Mood Swings</label>
+                                    <label><input type="checkbox" name="symptoms" value="headache"> Headache</label>
+                                    <label><input type="checkbox" name="symptoms" value="fatigue"> Fatigue</label>
+                                    <label><input type="checkbox" name="symptoms" value="acne"> Acne</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="flow-intensity">Flow Intensity</label>
+                                <select id="flow-intensity" name="flowIntensity">
+                                    <option value="">Select intensity</option>
+                                    <option value="light">Light</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="heavy">Heavy</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Cycle Data
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Cycle History Tab -->
+                <div id="cycle-history" class="tab-content">
+                    <div class="history-container">
+                        <h2>Cycle History</h2>
+                        <div id="cycle-history-list">
+                            <!-- Cycle history will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pill Reminders Tab -->
+                <div id="pill-reminders" class="tab-content">
+                    <div class="reminder-container">
+                        <h2>Contraceptive Pill Reminders</h2>
+                        <form id="pill-reminder-form">
+                            <div class="form-group">
+                                <label for="pill-name">Pill Name (Optional)</label>
+                                <input type="text" id="pill-name" name="pillName" placeholder="e.g., Yasmin, Diane-35">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="reminder-time">Daily Reminder Time *</label>
+                                <input type="time" id="reminder-time" name="reminderTime" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="enable-notifications" name="enableNotifications" checked>
+                                    Enable browser notifications
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-bell"></i> Set Reminder
+                            </button>
+                        </form>
+
+                        <div id="current-reminder-info" class="reminder-info">
+                            <!-- Current reminder info will be populated by JavaScript -->
+                        </div>
+
+                        <div class="pill-tracking">
+                            <h3>Today's Pill</h3>
+                            <button id="mark-pill-taken" class="btn btn-success">
+                                <i class="fas fa-check"></i> Mark as Taken
+                            </button>
+                            <div id="pill-status-today"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insights Tab -->
+                <div id="insights" class="tab-content">
+                    <div class="insights-container">
+                        <h2>Cycle Insights & Predictions</h2>
+                        
+                        <div class="insight-cards">
+                            <div class="insight-card">
+                                <h3><i class="fas fa-chart-line"></i> Fertility Window</h3>
+                                <div id="fertility-window">
+                                    <!-- Fertility window info -->
+                                </div>
+                            </div>
+
+                            <div class="insight-card">
+                                <h3><i class="fas fa-calendar-week"></i> Cycle Regularity</h3>
+                                <div id="cycle-regularity">
+                                    <!-- Cycle regularity analysis -->
+                                </div>
+                            </div>
+
+                            <div class="insight-card">
+                                <h3><i class="fas fa-exclamation-triangle"></i> Health Alerts</h3>
+                                <div id="health-alerts">
+                                    <!-- Health alerts and recommendations -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cycle-chart">
+                            <h3>Cycle Visualization</h3>
+                            <div id="cycle-calendar">
+                                <!-- Calendar visualization will be added here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Gender Healthcare System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="notification-toast" class="toast">
+        <div class="toast-content">
+            <span id="toast-message"></span>
+            <button id="close-toast">&times;</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/reproductive-cycle.js"></script>
+</body>
+</html>

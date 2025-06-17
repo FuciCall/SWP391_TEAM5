@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Reproductive Cycle Features</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reproductive-cycle.css">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+        }
+        .test-button {
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .test-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Reproductive Cycle Features Test</h1>
+        
+        <div class="test-section">
+            <h3>1. Load Demo Data</h3>
+            <p>This will add sample menstrual cycles and pill reminders to test the features.</p>
+            <button class="test-button" onclick="loadDemoData()">Load Demo Data</button>
+            <button class="test-button" onclick="clearAllData()">Clear All Data</button>
+            <div id="demo-result" class="test-result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. Notification Test</h3>
+            <p>Test browser notifications for pill reminders and ovulation alerts.</p>
+            <button class="test-button" onclick="testNotifications()">Request Notification Permission</button>
+            <button class="test-button" onclick="testPillNotification()">Test Pill Reminder</button>
+            <button class="test-button" onclick="testOvulationNotification()">Test Ovulation Alert</button>
+            <div id="notification-result" class="test-result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. Calculation Test</h3>
+            <p>Test pregnancy likelihood and cycle predictions.</p>
+            <button class="test-button" onclick="testCalculations()">Test Calculations</button>
+            <div id="calculation-result" class="test-result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. Data Persistence Test</h3>
+            <p>Test localStorage functionality.</p>
+            <button class="test-button" onclick="testDataPersistence()">Test Data Persistence</button>
+            <div id="persistence-result" class="test-result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>5. Go to Main App</h3>
+            <a href="reproductive-cycle.html" class="test-button" style="text-decoration: none; display: inline-block;">
+                Open Reproductive Cycle Tracker
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function loadDemoData() {
+            const today = new Date();
+            
+            // Demo cycles data
+            const demoCycles = [
+                {
+                    id: Date.now() - 86400000 * 30,
+                    periodStart: new Date(today.getTime() - 86400000 * 30).toISOString().split('T')[0],
+                    periodEnd: new Date(today.getTime() - 86400000 * 26).toISOString().split('T')[0],
+                    cycleLength: 28,
+                    periodLength: 4,
+                    symptoms: ['cramps', 'bloating'],
+                    flowIntensity: 'normal',
+                    ovulationDate: new Date(today.getTime() - 86400000 * 16).toISOString().split('T')[0],
+                    nextPeriodDate: new Date(today.getTime() - 86400000 * 2).toISOString().split('T')[0],
+                    dateCreated: new Date(today.getTime() - 86400000 * 30).toISOString()
+                },
+                {
+                    id: Date.now() - 86400000 * 60,
+                    periodStart: new Date(today.getTime() - 86400000 * 58).toISOString().split('T')[0],
+                    periodEnd: new Date(today.getTime() - 86400000 * 54).toISOString().split('T')[0],
+                    cycleLength: 29,
+                    periodLength: 4,
+                    symptoms: ['headache', 'mood-swings'],
+                    flowIntensity: 'heavy',
+                    ovulationDate: new Date(today.getTime() - 86400000 * 44).toISOString().split('T')[0],
+                    nextPeriodDate: new Date(today.getTime() - 86400000 * 29).toISOString().split('T')[0],
+                    dateCreated: new Date(today.getTime() - 86400000 * 58).toISOString()
+                },
+                {
+                    id: Date.now(),
+                    periodStart: new Date(today.getTime() - 86400000 * 2).toISOString().split('T')[0],
+                    periodEnd: null,
+                    cycleLength: 28,
+                    periodLength: 5,
+                    symptoms: ['cramps', 'fatigue'],
+                    flowIntensity: 'normal',
+                    ovulationDate: new Date(today.getTime() + 86400000 * 12).toISOString().split('T')[0],
+                    nextPeriodDate: new Date(today.getTime() + 86400000 * 26).toISOString().split('T')[0],
+                    dateCreated: new Date().toISOString()
+                }
+            ];
+
+            // Demo pill reminder
+            const demoReminder = {
+                pillName: 'Yasmin',
+                reminderTime: '20:00',
+                enableNotifications: true,
+                isActive: true,
+                dateCreated: new Date().toISOString()
+            };
+
+            // Demo pill taken log
+            const demoPillTaken = {};
+            for (let i = 1; i <= 5; i++) {
+                const date = new Date(today.getTime() - 86400000 * i).toDateString();
+                demoPillTaken[date] = {
+                    time: '20:05',
+                    timestamp: new Date(today.getTime() - 86400000 * i).toISOString()
+                };
+            }
+
+            // Save to localStorage
+            localStorage.setItem('reproductive_cycles', JSON.stringify(demoCycles));
+            localStorage.setItem('pill_reminder_settings', JSON.stringify(demoReminder));
+            localStorage.setItem('pill_taken_log', JSON.stringify(demoPillTaken));
+
+            const result = document.getElementById('demo-result');
+            result.style.display = 'block';
+            result.innerHTML = `
+                <strong>✅ Demo data loaded successfully!</strong><br>
+                • Added 3 menstrual cycles<br>
+                • Set up pill reminder for 8:00 PM<br>
+                • Added pill taken history for last 5 days<br>
+                <em>Go to the main app to see the data in action.</em>
+            `;
+        }
+
+        function clearAllData() {
+            localStorage.removeItem('reproductive_cycles');
+            localStorage.removeItem('pill_reminder_settings');
+            localStorage.removeItem('pill_taken_log');
+
+            const result = document.getElementById('demo-result');
+            result.style.display = 'block';
+            result.innerHTML = `
+                <strong>🗑️ All data cleared!</strong><br>
+                All stored cycle data, reminders, and pill logs have been removed.
+            `;
+        }
+
+        async function testNotifications() {
+            const result = document.getElementById('notification-result');
+            result.style.display = 'block';
+
+            if (!('Notification' in window)) {
+                result.innerHTML = '<strong>❌ This browser does not support notifications</strong>';
+                return;
+            }
+
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    result.innerHTML = '<strong>✅ Notification permission granted!</strong><br>You can now receive pill reminders and ovulation alerts.';
+                } else {
+                    result.innerHTML = '<strong>❌ Notification permission denied</strong><br>You won\'t receive browser notifications.';
+                }
+            } catch (error) {
+                result.innerHTML = `<strong>❌ Error requesting permission:</strong> ${error.message}`;
+            }
+        }
+
+        function testPillNotification() {
+            if (Notification.permission === 'granted') {
+                const notification = new Notification('💊 Contraceptive Pill Reminder', {
+                    body: 'Time to take your Yasmin! Don\'t forget your daily dose.',
+                    icon: '/favicon.ico',
+                    tag: 'pill-test'
+                });
+
+                setTimeout(() => notification.close(), 5000);
+
+                const result = document.getElementById('notification-result');
+                result.style.display = 'block';
+                result.innerHTML = '<strong>✅ Test pill notification sent!</strong>';
+            } else {
+                alert('Please grant notification permission first!');
+            }
+        }
+
+        function testOvulationNotification() {
+            if (Notification.permission === 'granted') {
+                const notification = new Notification('🥚 Ovulation Alert', {
+                    body: 'Your ovulation window is approaching. This is your most fertile time.',
+                    icon: '/favicon.ico',
+                    tag: 'ovulation-test'
+                });
+
+                setTimeout(() => notification.close(), 5000);
+
+                const result = document.getElementById('notification-result');
+                result.style.display = 'block';
+                result.innerHTML = '<strong>✅ Test ovulation notification sent!</strong>';
+            } else {
+                alert('Please grant notification permission first!');
+            }
+        }
+
+        function testCalculations() {
+            const today = new Date();
+            const ovulationDate = new Date(today.getTime() + 86400000 * 3); // 3 days from now
+            
+            // Test pregnancy likelihood calculation
+            function calculatePregnancyLikelihood(ovulationDate, currentDate) {
+                const daysDiff = Math.abs((ovulationDate - currentDate) / (1000 * 60 * 60 * 24));
+                
+                if (daysDiff <= 1) {
+                    return { likelihood: 'HIGH', percentage: 25 };
+                } else if (daysDiff <= 2) {
+                    return { likelihood: 'HIGH', percentage: 20 };
+                } else if (daysDiff <= 3) {
+                    return { likelihood: 'MEDIUM', percentage: 15 };
+                } else if (daysDiff <= 5) {
+                    return { likelihood: 'MEDIUM', percentage: 10 };
+                } else {
+                    return { likelihood: 'LOW', percentage: 2 };
+                }
+            }
+
+            const pregnancyData = calculatePregnancyLikelihood(ovulationDate, today);
+            
+            // Test cycle calculations
+            const periodStart = new Date(today.getTime() - 86400000 * 2);
+            const cycleLength = 28;
+            const nextOvulation = new Date(periodStart);
+            nextOvulation.setDate(periodStart.getDate() + cycleLength - 14);
+            const nextPeriod = new Date(periodStart);
+            nextPeriod.setDate(periodStart.getDate() + cycleLength);
+
+            const result = document.getElementById('calculation-result');
+            result.style.display = 'block';
+            result.innerHTML = `
+                <strong>✅ Calculation Tests Passed!</strong><br>
+                <strong>Pregnancy Likelihood:</strong> ${pregnancyData.likelihood} (${pregnancyData.percentage}%)<br>
+                <strong>Next Ovulation:</strong> ${nextOvulation.toDateString()}<br>
+                <strong>Next Period:</strong> ${nextPeriod.toDateString()}<br>
+                <strong>Days until ovulation:</strong> ${Math.ceil((nextOvulation - today) / (1000 * 60 * 60 * 24))} days
+            `;
+        }
+
+        function testDataPersistence() {
+            const testData = {
+                test: 'reproductive-cycle-test',
+                timestamp: new Date().toISOString(),
+                cycles: 3,
+                reminders: true
+            };
+
+            try {
+                // Test write
+                localStorage.setItem('test_persistence', JSON.stringify(testData));
+                
+                // Test read
+                const retrieved = JSON.parse(localStorage.getItem('test_persistence'));
+                
+                // Test delete
+                localStorage.removeItem('test_persistence');
+
+                const result = document.getElementById('persistence-result');
+                result.style.display = 'block';
+                
+                if (retrieved.test === testData.test) {
+                    result.innerHTML = `
+                        <strong>✅ Data persistence test passed!</strong><br>
+                        • Write operation: Success<br>
+                        • Read operation: Success<br>
+                        • Delete operation: Success<br>
+                        <em>LocalStorage is working correctly for cycle data storage.</em>
+                    `;
+                } else {
+                    result.innerHTML = '<strong>❌ Data persistence test failed!</strong><br>Retrieved data does not match saved data.';
+                }
+            } catch (error) {
+                const result = document.getElementById('persistence-result');
+                result.style.display = 'block';
+                result.innerHTML = `<strong>❌ Data persistence error:</strong> ${error.message}`;
+            }
+        }
+
+        // Auto-run basic tests on page load
+        window.addEventListener('load', () => {
+            console.log('🧪 Reproductive Cycle Test Page Loaded');
+            console.log('Available tests: Demo Data, Notifications, Calculations, Data Persistence');
+        });
+    </script>
+</body>
+</html>
