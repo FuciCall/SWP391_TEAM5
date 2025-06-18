@@ -47,6 +47,6 @@ public class Service {
     List<DashboardReport> dashboardReports = new ArrayList<>();
 
     public enum ServiceType {
-        TESTING, CONSULTATION, EDUCATION, OTHER
+        TESTING, CONSULTATION, EDUCATION, OTHER, STI_TEST
     }
 }

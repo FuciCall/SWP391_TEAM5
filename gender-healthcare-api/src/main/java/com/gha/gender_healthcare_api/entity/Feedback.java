@@ -21,7 +21,7 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long feedbackId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     User customer;
 

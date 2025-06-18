@@ -53,17 +53,20 @@ public class JwtTokenProvider {
         try {
             Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(authToken);
+            logger.info("Token is valid");
             return true;
         } catch (SignatureException ex) {
-            logger.error("Invalid JWT signature: Chữ ký JWT không hợp lệ", ex);
+            logger.error("JWT signature invalid: {}", ex.getMessage());
         } catch (MalformedJwtException ex) {
             logger.error("Invalid JWT token: Token JWT không đúng định dạng", ex);
         } catch (ExpiredJwtException ex) {
-            logger.error("Expired JWT token: Token JWT đã hết hạn", ex);
+            logger.warn("JWT expired: {}", ex.getMessage());
         } catch (UnsupportedJwtException ex) {
             logger.error("Unsupported JWT token: Token JWT không được hỗ trợ", ex);
         } catch (IllegalArgumentException ex) {
             logger.error("JWT claims string is empty: Chuỗi JWT rỗng", ex);
+        } catch (Exception ex) {
+            logger.warn("JWT invalid: {}", ex.getMessage());
         }
         return false;
     }

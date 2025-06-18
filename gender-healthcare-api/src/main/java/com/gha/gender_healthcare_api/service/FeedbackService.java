@@ -3,10 +3,13 @@ package com.gha.gender_healthcare_api.service;
 import com.gha.gender_healthcare_api.dto.request.FeedbackRequest;
 import com.gha.gender_healthcare_api.dto.response.FeedbackResponse;
 import com.gha.gender_healthcare_api.entity.Feedback;
+import com.gha.gender_healthcare_api.entity.User;
 import com.gha.gender_healthcare_api.mapper.FeedbackMapper;
 import com.gha.gender_healthcare_api.repository.FeedbackRepository;
 import com.gha.gender_healthcare_api.repository.ServiceRepository;
+import com.gha.gender_healthcare_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,7 +23,7 @@ public class FeedbackService {
     private final FeedbackRepository feedbackRepository;
     private final FeedbackMapper feedbackMapper;
     private final ServiceRepository serviceRepository;
-
+    private final UserRepository userRepository;
 
     public List<FeedbackResponse> getAllFeedback() {
         return feedbackRepository.findAll()
@@ -46,6 +49,16 @@ public class FeedbackService {
     public FeedbackResponse createFeedback(FeedbackRequest feedbackRequest) {
         Feedback feedback = feedbackMapper.toEntity(feedbackRequest);
         feedback.setDate(LocalDateTime.now());
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User customer = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        feedback.setCustomer(customer);
+
+        com.gha.gender_healthcare_api.entity.Service service = serviceRepository.findById(feedbackRequest.getServiceId())
+                .orElseThrow(() -> new RuntimeException("Service not found"));
+        feedback.setService(service);
         Feedback saved = feedbackRepository.save(feedback);
         return feedbackMapper.toResponse(saved);
     }

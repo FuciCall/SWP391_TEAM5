@@ -32,12 +32,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt = getJwtFromRequest(request);
-
+            logger.info("JWT from header: {}", jwt);
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+                logger.info("JWT validated successfully.");
                 String username = tokenProvider.getUsernameFromJWT(jwt);
+                logger.info("Username from JWT: {}", username);
 
                 if (StringUtils.hasText(username)) { // Kiểm tra username không null/rỗng
                     UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+                    logger.info("Loaded user: {}", userDetails.getUsername());
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

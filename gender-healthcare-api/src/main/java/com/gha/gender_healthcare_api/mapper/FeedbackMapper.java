@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 public interface FeedbackMapper {
     Feedback toEntity(FeedbackRequest request);
 
-    @Mapping(target = "date", expression = "java(feedback.getDate() != null ? feedback.getDate.toString() : null)")
+    @Mapping(target = "id", source = "feedbackId")
+    @Mapping(target = "serviceId", source = "service.id")
     FeedbackResponse toResponse(Feedback feedback);
 }

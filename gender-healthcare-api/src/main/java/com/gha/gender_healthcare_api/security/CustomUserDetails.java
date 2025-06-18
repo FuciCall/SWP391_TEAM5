@@ -1,6 +1,8 @@
 package com.gha.gender_healthcare_api.security;
 
 import com.gha.gender_healthcare_api.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +11,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class CustomUserDetails implements UserDetails {
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomUserDetails.class);
 
     private Long id;
     private String username;
@@ -29,7 +33,9 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()));
+        String authority = "ROLE_" + role.toUpperCase();
+        logger.info("Authority used for user {}: {}", username, authority);
+        return Collections.singletonList(new SimpleGrantedAuthority(authority));
     }
 
     @Override
