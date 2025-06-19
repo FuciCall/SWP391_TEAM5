@@ -55,7 +55,7 @@ public class MenstrualCycleRequest {
     /**
      * Các triệu chứng dưới dạng JSON array, ví dụ: ["abdominal_pain", "headache", "mood_swings", "breast_tenderness"]
      */
-    private String symptoms; // JSON array of symptoms
+    private String symptoms; // Mảng JSON chứa triệu chứng
     
     /**
      * Ghi chú cá nhân (mức độ đau 1-10, thuốc đã dùng, hoạt động đặc biệt, quan sát khác)

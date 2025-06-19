@@ -61,7 +61,7 @@ public class CyclePredictionService {
         // Chỉ sử dụng cycles có cycle_length (được tính từ chu kỳ trước đó)
         OptionalDouble avgCycleLength = recentCycles.stream()
             .filter(c -> c.getCycleLength() != null)
-            .limit(6) // Use last 6 cycles for accuracy
+            .limit(6) // Sử dụng 6 chu kỳ gần nhất để đảm bảo độ chính xác
             .mapToInt(MenstrualCycle::getCycleLength)
             .average();
             
@@ -88,12 +88,12 @@ public class CyclePredictionService {
         // Tạo entity prediction mới
         CyclePrediction prediction = new CyclePrediction();
         
-        // Set User reference (chỉ cần ID)
+        // Thiết lập tham chiếu User (chỉ cần ID)
         User user = new User();
         user.setUserId(userId);
         prediction.setUser(user);
         
-        // Set các giá trị dự đoán
+        // Thiết lập các giá trị dự đoán
         prediction.setPredictedOvulationDate(ovulationDate);
         prediction.setFertileWindowStart(fertileStart);
         prediction.setFertileWindowEnd(fertileEnd);
@@ -124,7 +124,7 @@ public class CyclePredictionService {
         
         // Ngoài cửa sổ sinh sản = không có khả năng thụ thai
         if (today.isBefore(fertileStart) || today.isAfter(fertileEnd)) {
-            return 0.0; // Outside fertile window
+            return 0.0; // Ngoài cửa sổ sinh sản
         }
         
         // Tính ngày rụng trứng và ngày trước đó (peak fertility)
@@ -133,15 +133,15 @@ public class CyclePredictionService {
         
         // Khả năng cao nhất: ngày rụng trứng và ngày trước đó
         if (today.equals(ovulationDay) || today.equals(dayBeforeOvulation)) {
-            return 25.0; // Peak fertility
+            return 25.0; // Đỉnh cao khả năng thụ thai
         } 
         // Khả năng thấp nhất: ngày đầu và cuối cửa sổ
         else if (today.equals(fertileStart) || today.equals(fertileEnd)) {
-            return 10.0; // Lower fertility at edges
+            return 10.0; // Khả năng thụ thai thấp hơn ở các ngày biên
         } 
         // Khả năng trung bình: các ngày ở giữa
         else {
-            return 20.0; // Moderate fertility in middle
+            return 20.0; // Khả năng thụ thai trung bình ở giữa cửa sổ
         }
     }
       /**

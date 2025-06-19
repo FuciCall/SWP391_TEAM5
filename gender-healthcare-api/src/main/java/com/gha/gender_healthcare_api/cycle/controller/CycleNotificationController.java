@@ -19,38 +19,37 @@ import java.util.List;
 public class CycleNotificationController {
     
     @Autowired
-    private CycleNotificationService notificationService;
-      /**
-     * Retrieves all cycle-related notifications for the authenticated user.
+    private CycleNotificationService notificationService;    /**
+     * Lấy tất cả thông báo liên quan đến chu kỳ cho người dùng đã xác thực.
      * 
-     * This endpoint provides users with access to their notification history:
-     * - Fetches notifications for cycle predictions, reminders, and health alerts
-     * - Returns both read and unread notifications for complete history
-     * - Ensures users only access their own notification data
-     * - Supports frontend notification display and management features
+     * Endpoint này cung cấp cho người dùng quyền truy cập vào lịch sử thông báo:
+     * - Lấy thông báo về dự đoán chu kỳ, lời nhắc và cảnh báo sức khỏe
+     * - Trả về cả thông báo đã đọc và chưa đọc để có lịch sử đầy đủ
+     * - Đảm bảo người dùng chỉ truy cập dữ liệu thông báo của riêng họ
+     * - Hỗ trợ tính năng hiển thị và quản lý thông báo của frontend
      * 
-     * Notifications may include reminders for:
-     * - Upcoming menstrual periods
-     * - Fertile window predictions
-     * - Contraceptive pill reminders
-     * - Health check recommendations
+     * Thông báo có thể bao gồm lời nhắc về:
+     * - Chu kỳ kinh nguyệt sắp tới
+     * - Dự đoán cửa sổ sinh sản
+     * - Lời nhắc thuốc tránh thai
+     * - Khuyến nghị kiểm tra sức khỏe
      * 
-     * @param auth Authentication object to identify the requesting user
-     * @return ResponseEntity containing list of user's cycle notifications
+     * @param auth Đối tượng xác thực để xác định người dùng đang yêu cầu
+     * @return ResponseEntity chứa danh sách thông báo chu kỳ của người dùng
      */
     @GetMapping
     public ResponseEntity<ApiResponse> getNotifications(Authentication auth) {
         try {
-            // Extract user ID for secure data access
+            // Trích xuất ID người dùng để truy cập dữ liệu an toàn
             Long userId = getCurrentUserId(auth);
             
-            // Retrieve all notifications associated with this user
+            // Lấy tất cả thông báo liên kết với người dùng này
             List<CycleNotification> notifications = notificationService.getUserNotifications(userId);
             
-            // Return the complete notification list
+            // Trả về danh sách thông báo hoàn chỉnh
             return ResponseEntity.ok(ApiResponse.success("Notifications retrieved", notifications));
         } catch (Exception e) {
-            // Handle any data access or processing errors
+            // Xử lý bất kỳ lỗi truy cập dữ liệu hoặc xử lý nào
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to get notifications: " + e.getMessage()));
         }
     }

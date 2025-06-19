@@ -60,7 +60,7 @@ public class CycleNotificationService {
     public void scheduleOvulationReminders(Long userId) {
         log.debug("Scheduling ovulation reminders for user {}", userId);
         
-        // Get latest cycle prediction for user
+        // Lấy dự đoán chu kỳ mới nhất cho user
         Optional<CyclePrediction> predictionOpt = cyclePredictionRepository
             .findTopByUserUserIdOrderByCalculationDateDesc(userId);
         
@@ -75,9 +75,8 @@ public class CycleNotificationService {
                  prediction.getFertileWindowStart(), 
                  prediction.getFertileWindowEnd(),
                  prediction.getNextPeriodDate());
-        
-        // 1. Schedule ovulation reminder (1 day before ovulation)
-        // Time: 9:00 AM for user preparation
+          // 1. Lên lịch nhắc nhở rụng trứng (1 ngày trước rụng trứng)
+        // Thời gian: 9:00 sáng để user chuẩn bị
         LocalDateTime ovulationReminder = prediction.getPredictedOvulationDate()
             .minusDays(1)
             .atTime(9, 0);
@@ -88,9 +87,8 @@ public class CycleNotificationService {
             "Your ovulation is predicted for tomorrow. Your fertile window is active!", // Nội dung bằng tiếng Anh
             ovulationReminder
         );
-        
-        // 2. Schedule fertile window start notification
-        // Time: 8:00 AM on first day of fertile window
+          // 2. Lên lịch thông báo bắt đầu cửa sổ sinh sản
+        // Thời gian: 8:00 sáng vào ngày đầu của cửa sổ sinh sản
         LocalDateTime fertileWindowReminder = prediction.getFertileWindowStart()
             .atTime(8, 0);
               scheduleNotification(
@@ -100,9 +98,8 @@ public class CycleNotificationService {
             "Your fertile window has started. Good luck if you're trying to conceive!", // Nội dung bằng tiếng Anh
             fertileWindowReminder
         );
-        
-        // 3. Schedule period reminder (2 days before)
-        // Time: 6:00 PM for user preparation
+          // 3. Lên lịch nhắc nhở kinh nguyệt (2 ngày trước)
+        // Thời gian: 6:00 chiều để user chuẩn bị
         LocalDateTime periodReminder = prediction.getNextPeriodDate()
             .minusDays(2)
             .atTime(18, 0);
@@ -137,19 +134,18 @@ public class CycleNotificationService {
         
         CycleNotification notification = new CycleNotification();
         
-        // Set User reference (lazy loading - only need ID)
+        // Thiết lập tham chiếu User (lazy loading - chỉ cần ID)
         User user = new User();
         user.setUserId(userId);
         notification.setUser(user);
-        
-        // Set notification information
-        notification.setType(type);                                 // Notification type
-        notification.setTitle(title);                              // Title
-        notification.setMessage(message);                          // Content
-        notification.setScheduledTime(scheduledTime);              // Scheduled send time
-        notification.setIsRead(false);                             // Not read yet
-        notification.setIsSent(false);                             // Not sent yet
-        notification.setCreatedAt(LocalDateTime.now());            // Creation timestamp
+          // Thiết lập thông tin thông báo
+        notification.setType(type);                                 // Loại thông báo
+        notification.setTitle(title);                              // Tiêu đề
+        notification.setMessage(message);                          // Nội dung
+        notification.setScheduledTime(scheduledTime);              // Thời gian gửi đã lên lịch
+        notification.setIsRead(false);                             // Chưa đọc
+        notification.setIsSent(false);                             // Chưa gửi
+        notification.setCreatedAt(LocalDateTime.now());            // Timestamp tạo
         
         CycleNotification savedNotification = notificationRepository.save(notification);
         log.info("Successfully scheduled notification {} for user {} at {}", 
@@ -233,7 +229,7 @@ public class CycleNotificationService {
         User user = notification.getUser();
         log.debug("Sending notification to user {}: {}", user.getUserId(), notification.getTitle());
         
-        // Gửi email notification (sử dụng existing EmailService)
+        // Gửi email thông báo (sử dụng EmailService hiện có)
         try {
             if (user.getEmail() != null && !user.getEmail().trim().isEmpty()) {
                 emailService.sendCycleNotificationEmail(
@@ -247,10 +243,10 @@ public class CycleNotificationService {
             }
         } catch (Exception e) {
             log.error("Failed to send email notification to user {}: {}", user.getUserId(), e.getMessage());
-            throw e; // Re-throw để caller biết có lỗi
+            throw e; // Ném lại để caller biết có lỗi
         }
         
-        // TODO: Gửi push notification (khi có mobile app integration)
+        // TODO: Gửi thông báo đẩy (khi có tích hợp ứng dụng di động)
         // if (user.getPushToken() != null && !user.getPushToken().trim().isEmpty()) {
         //     try {
         //         pushNotificationService.sendPushNotification(
@@ -265,7 +261,7 @@ public class CycleNotificationService {
         //     }
         // }
         
-        // TODO: Gửi SMS notification (nếu user enable và có phone number)
+        // TODO: Gửi thông báo SMS (nếu user bật và có số điện thoại)
         // if (user.getPhoneNumber() != null && user.isSmsNotificationEnabled()) {
         //     try {
         //         smsService.sendSMS(
@@ -323,13 +319,13 @@ public class CycleNotificationService {
     public void markAsRead(Long notificationId, Long userId) {
         log.debug("Marking notification {} as read for user {}", notificationId, userId);
         
-        // Tìm notification theo ID        CycleNotification notification = notificationRepository.findById(notificationId)
+        // Tìm thông báo theo ID        CycleNotification notification = notificationRepository.findById(notificationId)
             .orElseThrow(() -> {
                 log.error("Notification not found: {}", notificationId);
                 return new EntityNotFoundException("Notification not found with ID: " + notificationId);
             });
         
-        // Kiểm tra quyền truy cập (chỉ chủ sở hữu mới được mark as read)
+        // Kiểm tra quyền truy cập (chỉ chủ sở hữu mới được đánh dấu đã đọc)
         if (!notification.getUser().getUserId().equals(userId)) {
             log.error("Access denied: user {} trying to mark notification {} owned by user {}", 
                       userId, notificationId, notification.getUser().getUserId());
@@ -366,11 +362,11 @@ public class CycleNotificationService {
     public void cancelNotifications(Long userId, CycleNotification.NotificationType type) {
         log.debug("Canceling notifications for user {} with type {}", userId, type);
         
-        // Tìm tất cả notifications của user với type cụ thể
+        // Tìm tất cả thông báo của user với loại cụ thể
         List<CycleNotification> notifications = notificationRepository
             .findByUserUserIdAndTypeOrderByCreatedAtDesc(userId, type);
         
-        // Lọc và đếm notifications cần hủy
+        // Lọc và đếm thông báo cần hủy
         List<CycleNotification> notificationsToCancel = notifications.stream()
             .filter(n -> !n.getIsSent() && n.getScheduledTime().isAfter(LocalDateTime.now()))
             .toList();
@@ -383,7 +379,7 @@ public class CycleNotificationService {
         log.info("Canceling {} notifications for user {} with type {}", 
                  notificationsToCancel.size(), userId, type);
         
-        // Xóa notifications khỏi database
+        // Xóa thông báo khỏi database
         notificationsToCancel.forEach(notification -> {
             log.debug("Canceling notification {} scheduled for {}", 
                      notification.getId(), notification.getScheduledTime());

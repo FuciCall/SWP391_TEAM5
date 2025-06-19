@@ -57,7 +57,7 @@ public class MenstrualCycle {    /**
      * Giá trị bình thường: 21-35 ngày
      */
     @Column(name = "cycle_length")
-    private Integer cycleLength; // Average cycle length
+    private Integer cycleLength; // Độ dài chu kỳ trung bình
     
     /**
      * Độ dài kinh nguyệt tính bằng ngày (từ start_date đến end_date)
@@ -65,7 +65,7 @@ public class MenstrualCycle {    /**
      * Giá trị bình thường: 3-7 ngày
      */
     @Column(name = "period_length")
-    private Integer periodLength; // Duration of menstruation
+    private Integer periodLength; // Thời gian kinh nguyệt
     
     /**
      * Cường độ kinh nguyệt - enum với 3 mức độ
@@ -82,7 +82,7 @@ public class MenstrualCycle {    /**
      * Có thể mở rộng thành bảng riêng nếu cần phân tích chi tiết
      */
     @Column(name = "symptoms", columnDefinition = "TEXT")
-    private String symptoms; // JSON string of symptoms
+    private String symptoms; // Chuỗi JSON lưu trữ triệu chứng
     
     /**
      * Ghi chú cá nhân của user về chu kỳ này

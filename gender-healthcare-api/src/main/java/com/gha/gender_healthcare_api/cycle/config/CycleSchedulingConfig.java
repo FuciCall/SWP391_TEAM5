@@ -6,5 +6,5 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableScheduling
 public class CycleSchedulingConfig {
-    // This class enables scheduling for the cycle notification system
+    // Lớp này kích hoạt tính năng lập lịch cho hệ thống thông báo chu kỳ
 }

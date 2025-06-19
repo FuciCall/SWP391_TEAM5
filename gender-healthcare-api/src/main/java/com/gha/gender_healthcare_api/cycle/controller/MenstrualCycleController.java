@@ -33,8 +33,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/menstrual-cycle")
-@PreAuthorize("hasRole('CUSTOMER')")  // Chỉ customer mới được truy cập cycle data
-@CrossOrigin(origins = "*")            // Cho phép CORS từ mọi origin (có thể restrict trong production)
+@PreAuthorize("hasRole('CUSTOMER')")  // Chỉ customer mới được truy cập dữ liệu chu kỳ
+@CrossOrigin(origins = "*")            // Cho phép CORS từ mọi nguồn (có thể hạn chế trong production)
 public class MenstrualCycleController {
       /**
      * Service xử lý logic nghiệp vụ cho chu kỳ kinh nguyệt
@@ -79,7 +79,7 @@ public class MenstrualCycleController {
     @PostMapping("/declare")
     public ResponseEntity<ApiResponse> declareCycle(@Valid @RequestBody MenstrualCycleRequest request, Authentication auth) {
         try {
-            // Lấy user ID từ JWT token - đảm bảo security
+            // Lấy ID người dùng từ JWT token - đảm bảo bảo mật
             Long userId = getCurrentUserId(auth);
             
             // Gọi service để xử lý business logic
@@ -158,7 +158,7 @@ public class MenstrualCycleController {
         try {
             Long userId = getCurrentUserId(auth);
             
-            // Service sẽ tính toán tất cả analytics và insights
+            // Dịch vụ sẽ tính toán tất cả phân tích và thông tin chi tiết
             CycleAnalytics analytics = menstrualCycleService.getCycleAnalytics(userId);
             
             return ResponseEntity.ok(ApiResponse.success("Cycle analytics retrieved", analytics));
@@ -231,7 +231,7 @@ public class MenstrualCycleController {
         try {
             Long userId = getCurrentUserId(auth);
             
-            // Tính toán lại prediction với data mới nhất
+            // Tính toán lại dự đoán với dữ liệu mới nhất
             CyclePrediction prediction = cyclePredictionService.generatePredictions(userId);
             
             return ResponseEntity.ok(ApiResponse.success("Predictions updated", prediction));

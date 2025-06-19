@@ -19,126 +19,122 @@ import org.springframework.web.bind.annotation.*;
 public class ContraceptiveController {
     
     @Autowired
-    private ContraceptiveReminderService reminderService;
-      /**
-     * Sets up a new contraceptive pill reminder for the authenticated user.
+    private ContraceptiveReminderService reminderService;    /**
+     * Thiết lập lời nhắc thuốc tránh thai mới cho người dùng đã xác thực.
      * 
-     * This endpoint allows users to create personalized pill reminder schedules with:
-     * - Custom notification times (e.g., daily at 8:00 AM)
-     * - Pill type and dosage information
-     * - Duration of the contraceptive cycle
-     * - Email notification preferences
+     * Endpoint này cho phép người dùng tạo lịch nhắc thuốc cá nhân với:
+     * - Thời gian thông báo tùy chỉnh (ví dụ: hàng ngày lúc 8:00 sáng)
+     * - Thông tin loại thuốc và liều lượng
+     * - Thời gian của chu kỳ tránh thai
+     * - Tùy chọn thông báo email
      * 
-     * The system validates the request data and creates a new reminder entry
-     * with automatic scheduling for future notifications.
+     * Hệ thống xác thực dữ liệu yêu cầu và tạo bản ghi nhắc nhở mới
+     * với lịch trình tự động cho các thông báo tương lai.
      * 
-     * @param request Validated request object containing pill reminder details
-     * @param auth Authentication object containing user credentials and permissions
-     * @return ResponseEntity with success/error message and created reminder data
+     * @param request Đối tượng yêu cầu đã được xác thực chứa chi tiết lời nhắc thuốc
+     * @param auth Đối tượng xác thực chứa thông tin đăng nhập và quyền của người dùng
+     * @return ResponseEntity với thông báo thành công/lỗi và dữ liệu reminder đã tạo
      */
     @PostMapping("/pill-reminder/setup")
     public ResponseEntity<ApiResponse> setupPillReminder(@Valid @RequestBody ContraceptiveReminderRequest request, Authentication auth) {
         try {
-            // Extract user ID from authentication token for security
+            // Trích xuất ID người dùng từ token xác thực để đảm bảo bảo mật
             Long userId = getCurrentUserId(auth);
             
-            // Delegate to service layer to handle business logic and data persistence
+            // Ủy thác cho tầng service để xử lý logic nghiệp vụ và lưu trữ dữ liệu
             ContraceptiveReminder reminder = reminderService.setupPillReminder(userId, request);
             
-            // Return success response with the created reminder object
+            // Trả về phản hồi thành công với đối tượng reminder đã tạo
             return ResponseEntity.ok(ApiResponse.success("Pill reminder set up successfully", reminder));
         } catch (Exception e) {
-            // Handle any validation or business logic errors gracefully
+            // Xử lý bất kỳ lỗi xác thực hoặc logic nghiệp vụ nào một cách khéo léo
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to setup reminder: " + e.getMessage()));
         }
-    }
-      /**
-     * Retrieves the current active contraceptive reminder for the authenticated user.
+    }    /**
+     * Lấy lời nhắc thuốc tránh thai đang hoạt động hiện tại cho người dùng đã xác thực.
      * 
-     * This endpoint allows users to check their existing pill reminder settings:
-     * - Returns the currently active reminder if one exists
-     * - Provides null response if no active reminder is found
-     * - Ensures users can only access their own reminder data
+     * Endpoint này cho phép người dùng kiểm tra cài đặt lời nhắc thuốc hiện có:
+     * - Trả về lời nhắc đang hoạt động nếu tồn tại
+     * - Cung cấp phản hồi null nếu không tìm thấy lời nhắc hoạt động nào
+     * - Đảm bảo người dùng chỉ có thể truy cập dữ liệu lời nhắc của riêng họ
      * 
-     * The system searches for active reminders associated with the user's ID
-     * and returns the most recent or current reminder configuration.
+     * Hệ thống tìm kiếm các lời nhắc hoạt động liên kết với ID người dùng
+     * và trả về cấu hình lời nhắc gần nhất hoặc hiện tại.
      * 
-     * @param auth Authentication object to identify the requesting user
-     * @return ResponseEntity with the active reminder data or null if none exists
+     * @param auth Đối tượng xác thực để xác định người dùng đang yêu cầu
+     * @return ResponseEntity với dữ liệu lời nhắc hoạt động hoặc null nếu không tồn tại
      */
     @GetMapping("/pill-reminder")
     public ResponseEntity<ApiResponse> getActiveReminder(Authentication auth) {
         try {
-            // Extract user ID to ensure data privacy and security
+            // Trích xuất ID người dùng để đảm bảo quyền riêng tư và bảo mật dữ liệu
             Long userId = getCurrentUserId(auth);
             
-            // Query service layer for the user's active reminder
+            // Truy vấn tầng service để lấy reminder đang hoạt động của người dùng
             ContraceptiveReminder reminder = reminderService.getUserActiveReminder(userId);
             
-            // Handle case where no active reminder exists
+            // Xử lý trường hợp không có reminder hoạt động nào
             if (reminder == null) {
                 return ResponseEntity.ok(ApiResponse.success("No active reminder found", null));
             }
             
-            // Return the found active reminder
+            // Trả về reminder đang hoạt động đã tìm thấy
             return ResponseEntity.ok(ApiResponse.success("Active reminder retrieved", reminder));
         } catch (Exception e) {
-            // Handle any data access or processing errors
+            // Xử lý bất kỳ lỗi truy cập dữ liệu hoặc xử lý nào
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to get reminder: " + e.getMessage()));
         }
-    }
-      /**
-     * Deactivates a specific contraceptive reminder for the authenticated user.
+    }    /**
+     * Vô hiệu hóa lời nhắc thuốc tránh thai cụ thể cho người dùng đã xác thực.
      * 
-     * This endpoint allows users to stop or cancel their pill reminders:
-     * - Validates that the reminder belongs to the requesting user
-     * - Marks the reminder as inactive to stop future notifications
-     * - Maintains reminder history for potential future reference
-     * - Ensures secure access to only user-owned reminders
+     * Endpoint này cho phép người dùng dừng hoặc hủy lời nhắc thuốc:
+     * - Xác thực rằng lời nhắc thuộc về người dùng đang yêu cầu
+     * - Đánh dấu lời nhắc là không hoạt động để dừng thông báo tương lai
+     * - Duy trì lịch sử lời nhắc để có thể tham khảo trong tương lai
+     * - Đảm bảo truy cập an toàn chỉ với lời nhắc thuộc sở hữu của người dùng
      * 
-     * The system performs authorization checks to prevent users from
-     * deactivating reminders that don't belong to them.
+     * Hệ thống thực hiện kiểm tra ủy quyền để ngăn người dùng
+     * vô hiệu hóa lời nhắc không thuộc về họ.
      * 
-     * @param reminderId The unique ID of the reminder to deactivate
-     * @param auth Authentication object to verify user ownership
-     * @return ResponseEntity with success confirmation or error message
+     * @param reminderId ID duy nhất của lời nhắc cần vô hiệu hóa
+     * @param auth Đối tượng xác thực để xác minh quyền sở hữu của người dùng
+     * @return ResponseEntity với xác nhận thành công hoặc thông báo lỗi
      */
     @DeleteMapping("/pill-reminder/{reminderId}")
     public ResponseEntity<ApiResponse> deactivateReminder(@PathVariable Long reminderId, Authentication auth) {
         try {
-            // Extract user ID for ownership validation
+            // Trích xuất ID người dùng để xác thực quyền sở hữu
             Long userId = getCurrentUserId(auth);
             
-            // Delegate to service layer for secure deactivation logic
+            // Ủy thác cho tầng service để xử lý logic vô hiệu hóa an toàn
             reminderService.deactivateReminder(userId, reminderId);
             
-            // Confirm successful deactivation
+            // Xác nhận vô hiệu hóa thành công
             return ResponseEntity.ok(ApiResponse.success("Reminder deactivated successfully", null));
         } catch (Exception e) {
-            // Handle authorization errors or data access issues
+            // Xử lý lỗi ủy quyền hoặc vấn đề truy cập dữ liệu
             return ResponseEntity.badRequest().body(ApiResponse.error("Failed to deactivate reminder: " + e.getMessage()));
         }
-    }
-      /**
-     * Extracts the user ID from the Spring Security authentication context.
+    }    /**
+     * Trích xuất ID người dùng từ ngữ cảnh xác thực Spring Security.
      * 
-     * This utility method provides secure access to the authenticated user's ID:
-     * - Casts the authentication principal to UserPrincipal type
-     * - Retrieves the user ID for database queries and authorization
-     * - Ensures consistent user identification across all endpoints
-     * - Maintains security by using Spring Security's authentication context
+     * Phương thức tiện ích này cung cấp truy cập an toàn đến ID của người dùng đã xác thực:
+     * - Ép kiểu authentication principal thành kiểu UserPrincipal
+     * - Lấy ID người dùng cho các truy vấn cơ sở dữ liệu và ủy quyền
+     * - Đảm bảo nhận dạng người dùng nhất quán trên tất cả endpoints
+     * - Duy trì bảo mật bằng cách sử dụng ngữ cảnh xác thực của Spring Security
      * 
-     * This method is used throughout the controller to link operations
-     * to the specific authenticated user making the request.
+     * Phương thức này được sử dụng trong toàn bộ controller để liên kết các hoạt động
+     * với người dùng đã xác thực cụ thể đang thực hiện yêu cầu.
      * 
-     * @param auth Spring Security Authentication object from the request context
-     * @return Long user ID extracted from the authentication principal
+     * @param auth Đối tượng Authentication của Spring Security từ ngữ cảnh yêu cầu
+     * @return Long ID người dùng được trích xuất từ authentication principal
      */
     private Long getCurrentUserId(Authentication auth) {
-        // Cast authentication principal to custom UserPrincipal type
+        // Ép kiểu authentication principal thành kiểu UserPrincipal tùy chỉnh
         UserPrincipal userPrincipal = (UserPrincipal) auth.getPrincipal();
         
-        // Extract and return the user's unique identifier
+        // Trích xuất và trả về định danh duy nhất của người dùng
         return userPrincipal.getId();
     }
 }

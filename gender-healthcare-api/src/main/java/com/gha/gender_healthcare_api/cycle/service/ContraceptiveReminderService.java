@@ -45,33 +45,32 @@ public class ContraceptiveReminderService {
      * 4. Lên lịch các thông báo hàng ngày
      */
     public ContraceptiveReminder setupPillReminder(Long userId, ContraceptiveReminderRequest request) {
-        // Deactivate existing reminders to avoid duplicates
+        // Vô hiệu hóa các reminder hiện có để tránh trùng lặp
         List<ContraceptiveReminder> existingReminders = reminderRepository.findByUserUserIdAndIsActiveTrue(userId);
         existingReminders.forEach(r -> r.setIsActive(false));
         reminderRepository.saveAll(existingReminders);
         
-        // Create new reminder
+        // Tạo reminder mới
         ContraceptiveReminder reminder = new ContraceptiveReminder();
         
-        // Set User reference (lazy loading - only need ID)
+        // Thiết lập tham chiếu User (lazy loading - chỉ cần ID)
         User user = new User();
         user.setUserId(userId);
         reminder.setUser(user);
         
-        // Fill information from request
-        reminder.setPillName(request.getPillName());               // Pill name
-        reminder.setReminderTime(request.getReminderTime());       // Daily reminder time
-        reminder.setPackStartDate(request.getPackStartDate());     // Pack start date
-        reminder.setPackDuration(request.getPackDuration());       // Days to take pills in cycle
-        reminder.setBreakDuration(request.getBreakDuration());     // Break days between cycles
-        reminder.setTimezone(request.getTimezone());               // User timezone
-        reminder.setIsActive(true);                                // Activate reminder
-        reminder.setCreatedAt(LocalDateTime.now());                // Creation timestamp
+        // Điền thông tin từ request        reminder.setPillName(request.getPillName());               // Tên thuốc
+        reminder.setReminderTime(request.getReminderTime());       // Thời gian nhắc nhở hàng ngày
+        reminder.setPackStartDate(request.getPackStartDate());     // Ngày bắt đầu gói thuốc
+        reminder.setPackDuration(request.getPackDuration());       // Số ngày uống thuốc trong chu kỳ
+        reminder.setBreakDuration(request.getBreakDuration());     // Số ngày nghỉ giữa các chu kỳ
+        reminder.setTimezone(request.getTimezone());               // Múi giờ của người dùng
+        reminder.setIsActive(true);                                // Kích hoạt reminder
+        reminder.setCreatedAt(LocalDateTime.now());                // Timestamp tạo
         
-        // Save to database
+        // Lưu vào database
         ContraceptiveReminder savedReminder = reminderRepository.save(reminder);
         
-        // Schedule daily pill reminders
+        // Lên lịch nhắc nhở uống thuốc hàng ngày
         try {
             schedulePillReminders(savedReminder);
             log.info("Successfully scheduled pill reminders for user {} with pill {}", userId, request.getPillName());
@@ -90,21 +89,20 @@ public class ContraceptiveReminderService {
      * 2. Tạo thông báo cho mỗi ngày uống thuốc
      * 3. Gửi lệnh lên lịch đến NotificationService
      */
-    private void schedulePillReminders(ContraceptiveReminder reminder) {
-        LocalDate currentDate = reminder.getPackStartDate();      // Start date
-        LocalDate endDate = currentDate.plusMonths(3);            // Schedule for 3 months ahead
+    private void schedulePillReminders(ContraceptiveReminder reminder) {        LocalDate currentDate = reminder.getPackStartDate();      // Ngày bắt đầu
+        LocalDate endDate = currentDate.plusMonths(3);            // Lên lịch cho 3 tháng tới
         
         log.debug("Scheduling pill reminders from {} to {} for user {}", 
                   currentDate, endDate, reminder.getUser().getUserId());
         
-        // Loop through each day in the time range
+        // Lặp qua từng ngày trong khoảng thời gian
         while (currentDate.isBefore(endDate)) {
-            // Check if current date is a pill day (not break day)
+            // Kiểm tra ngày hiện tại có phải ngày uống thuốc không (không phải ngày nghỉ)
             if (isPillDay(currentDate, reminder)) {
-                // Create reminder datetime: date + configured time
+                // Tạo datetime nhắc nhở: ngày + thời gian đã cấu hình
                 LocalDateTime reminderDateTime = currentDate.atTime(reminder.getReminderTime());
                 
-                // Create notification reminder                notificationService.scheduleNotification(
+                // Tạo thông báo nhắc nhở                notificationService.scheduleNotification(
                     reminder.getUser().getUserId(),
                     com.gha.gender_healthcare_api.cycle.entity.CycleNotification.NotificationType.CONTRACEPTIVE_PILL_REMINDER,
                     "Time for your pill!", // Tiêu đề thông báo bằng tiếng Anh
@@ -112,7 +110,7 @@ public class ContraceptiveReminderService {
                     reminderDateTime
                 );
             }
-            currentDate = currentDate.plusDays(1); // Move to next day
+            currentDate = currentDate.plusDays(1); // Chuyển sang ngày tiếp theo
         }
         
         log.info("Completed scheduling pill reminders for user {}", reminder.getUser().getUserId());
@@ -135,16 +133,16 @@ public class ContraceptiveReminderService {
      * - Ngày 29-49: uống thuốc chu kỳ mới (return true)
      */
     private boolean isPillDay(LocalDate date, ContraceptiveReminder reminder) {
-        // Calculate days since pack start date
+        // Tính số ngày từ ngày bắt đầu gói thuốc
         long daysSinceStart = ChronoUnit.DAYS.between(reminder.getPackStartDate(), date);
         
-        // Calculate complete cycle length (pill days + break days)
+        // Tính độ dài chu kỳ hoàn chỉnh (ngày uống thuốc + ngày nghỉ)
         int cycleLength = reminder.getPackDuration() + reminder.getBreakDuration();
         
-        // Find position in current cycle (0 to cycleLength-1)
+        // Tìm vị trí trong chu kỳ hiện tại (0 đến cycleLength-1)
         int dayInCycle = (int) (daysSinceStart % cycleLength);
         
-        // If position < pill duration → this is a pill day
+        // Nếu vị trí < thời gian uống thuốc → đây là ngày uống thuốc
         boolean isPillDay = dayInCycle < reminder.getPackDuration();
         
         log.trace("Date {}: daysSinceStart={}, dayInCycle={}, isPillDay={}", 
@@ -192,24 +190,24 @@ public class ContraceptiveReminderService {
     public void deactivateReminder(Long userId, Long reminderId) {
         log.debug("Deactivating contraceptive reminder {} for user {}", reminderId, userId);
         
-        // Find reminder by ID        ContraceptiveReminder reminder = reminderRepository.findById(reminderId)
+        // Tìm reminder theo ID        ContraceptiveReminder reminder = reminderRepository.findById(reminderId)
             .orElseThrow(() -> {
                 log.error("Reminder not found: {}", reminderId);
                 return new EntityNotFoundException("Reminder not found with ID: " + reminderId);
             });
         
-        // Check ownership (only owner can deactivate)
+        // Kiểm tra quyền sở hữu (chỉ chủ sở hữu mới có thể vô hiệu hóa)
         if (!reminder.getUser().getUserId().equals(userId)) {
             log.error("Access denied: user {} trying to deactivate reminder {} owned by user {}", 
                       userId, reminderId, reminder.getUser().getUserId());
             throw new AccessDeniedException("Access denied to deactivate this reminder");
         }
         
-        // Deactivate reminder
+        // Vô hiệu hóa reminder
         reminder.setIsActive(false);
         reminderRepository.save(reminder);
         
-        // Cancel all future contraceptive pill reminder notifications
+        // Hủy tất cả thông báo nhắc nhở thuốc tránh thai trong tương lai
         notificationService.cancelNotifications(
             userId, 
             com.gha.gender_healthcare_api.cycle.entity.CycleNotification.NotificationType.CONTRACEPTIVE_PILL_REMINDER

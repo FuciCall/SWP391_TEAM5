@@ -32,79 +32,79 @@ import java.time.LocalTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContraceptiveReminder {    /**
-     * Primary key of contraceptive_reminders table
+public class ContraceptiveReminder {
+    /**
+     * Khóa chính của bảng contraceptive_reminders
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     /**
-     * Many-to-One relationship with User entity
-     * Each user can have multiple reminders but only one active at a time
+     * Quan hệ nhiều-một với thực thể User
+     * Mỗi user có thể có nhiều reminder nhưng chỉ một cái đang hoạt động
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     
     /**
-     * Name of contraceptive pill (e.g., Yasmin, Diane-35, Mercilon)
-     * Displayed in notifications for easy identification
+     * Tên thuốc tránh thai (ví dụ: Yasmin, Diane-35, Mercilon)
+     * Hiển thị trong thông báo để dễ nhận biết
      */
     @Column(name = "pill_name", nullable = false)
     private String pillName;
     
     /**
-     * Daily reminder time in HH:mm format
-     * Used to schedule notifications
+     * Thời gian nhắc nhở hàng ngày theo định dạng HH:mm
+     * Dùng để lên lịch thông báo
      */
     @Column(name = "reminder_time", nullable = false)
     private LocalTime reminderTime;
     
     /**
-     * Active status of the reminder
-     * Only one reminder should be active per user
+     * Trạng thái hoạt động của nhắc nhở
+     * Chỉ một reminder được phép hoạt động cho mỗi user
      */
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
     
     /**
-     * Start date of current pill pack
-     * Used to calculate pill days vs break days
+     * Ngày bắt đầu vỉ thuốc hiện tại
+     * Dùng để tính toán ngày uống thuốc và ngày nghỉ
      */
     @Column(name = "pack_start_date")
-    private LocalDate packStartDate;
-      /**
-     * Number of days to take pills in one pack (typically 21 or 28)
-     * 21 days: take for 21 days, break for 7 days
-     * 28 days: continuous pills with no break
+    private LocalDate packStartDate;    /**
+     * Số ngày uống thuốc trong một vỉ (thường là 21 hoặc 28 ngày)
+     * 21 ngày: uống 21 ngày, nghỉ 7 ngày
+     * 28 ngày: uống liên tục không nghỉ
      */
     @Column(name = "pack_duration")
     private Integer packDuration;
     
     /**
-     * Number of break days between packs (typically 7 days)
-     * 7 days: for 21-pill packs
-     * 0 days: for 28-pill packs (continuous)
+     * Số ngày nghỉ giữa các vỉ (thường là 7 ngày)
+     * 7 ngày: cho vỉ 21 viên
+     * 0 ngày: cho vỉ 28 viên (uống liên tục)
      */
     @Column(name = "break_duration")
     private Integer breakDuration;
     
     /**
-     * User's timezone for accurate reminder scheduling
-     * Examples: "Asia/Ho_Chi_Minh", "UTC", "America/New_York"
+     * Múi giờ của người dùng để lên lịch nhắc nhở chính xác
+     * Ví dụ: "Asia/Ho_Chi_Minh", "UTC", "America/New_York"
      */
     @Column(name = "timezone")
     private String timezone;
     
     /**
-     * Timestamp when reminder was created
+     * Thời gian tạo nhắc nhở
      */
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     
     /**
-     * JPA callback to automatically set created_at timestamp
+     * Phương thức callback JPA để tự động gán thời gian created_at
      */
     @PrePersist
     protected void onCreate() {
