@@ -81,22 +81,23 @@ public class MenstrualCycleService {
      * 3. PERSISTENCE: Lưu vào database với transaction
      *    - Tạo MenstrualCycle entity mới
      *    - Set timestamps (created_at, updated_at)
-     *    - Save với @Transactional để rollback nếu lỗi     * 
-     * 4. KÍCH HOẠT CÁC DỊCH VỤ LIÊN KẾT:
-     *    - Tạo dự đoán cho chu kỳ tiếp theo
-     *    - Lên lịch thông báo (rụng trứng, nhắc nhở chu kỳ)
-     *    - Cập nhật bộ nhớ đệm phân tích nếu có
+     *    - Save với @Transactional để rollback nếu lỗi
      * 
-     * Xử lý Lỗi:
+     * 4. TRIGGER DOWNSTREAM SERVICES:
+     *    - Generate predictions cho chu kỳ tiếp theo
+     *    - Schedule notifications (ovulation, period reminders)
+     *    - Update analytics cache nếu có
+     * 
+     * Error Handling:
      * - IllegalArgumentException: Dữ liệu không hợp lệ
      * - DataIntegrityViolationException: Trùng lặp dữ liệu
-     * - ServiceException: Lỗi từ các dịch vụ phụ thuộc
+     * - ServiceException: Lỗi từ downstream services
      * 
-     * @param userId ID của user (đã được xác thực từ JWT)
+     * @param userId ID của user (đã được authenticate từ JWT)
      * @param request DTO chứa thông tin chu kỳ từ frontend
-     * @return MenstrualCycle entity đã được lưu trữ với đầy đủ các trường tính toán
+     * @return MenstrualCycle entity đã được persist với đầy đủ calculated fields
      * @throws IllegalArgumentException nếu dữ liệu không hợp lệ
-     * @throws ServiceException nếu có lỗi từ các dịch vụ dự đoán/thông báo
+     * @throws ServiceException nếu có lỗi từ prediction/notification services
      */
     public MenstrualCycle declareMenstrualCycle(Long userId, MenstrualCycleRequest request) {
         MenstrualCycle cycle = new MenstrualCycle();
@@ -170,7 +171,7 @@ public class MenstrualCycleService {
                 .averageCycleLength(28)
                 .averagePeriodLength(5)
                 .cycleRegularity("INSUFFICIENT_DATA")
-                .healthInsights(List.of("Bắt đầu theo dõi chu kỳ để nhận thông tin cá nhân hóa!"))
+                .healthInsights(List.of("Start tracking your cycles to get personalized insights!"))
                 .build();
         }
         
@@ -259,7 +260,8 @@ public class MenstrualCycleService {
                 .mapToInt(MenstrualCycle::getCycleLength)
                 .average()
                 .orElse(28);
-                  // Đánh giá độ dài chu kỳ so với chuẩn y khoa (21-35 ngày)
+                
+            // Đánh giá độ dài chu kỳ so với chuẩn y khoa (21-35 ngày)
             if (avgCycleLength < 21) {
                 insights.add("Your cycles are shorter than average. Consider consulting a healthcare provider.");
             } else if (avgCycleLength > 35) {
